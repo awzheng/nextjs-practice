@@ -1,0 +1,313 @@
+/* ------------------------------------------------------------------ *
+ * Tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+  --ink: #18181b;
+  --ink-soft: #52525b;
+  --ink-faint: #a1a1aa;
+  --rule: #e4e4e7;
+  --bg: #ffffff;
+
+  /* Accent, overridden per theme below. */
+  --kw-bg: rgba(250, 204, 21, 0.28);
+  --kw-bg-hover: rgba(250, 204, 21, 0.55);
+  --kw-line: rgba(161, 98, 7, 0.45);
+  --kw-term: #fde047;
+}
+
+[data-accent="blue"] {
+  --kw-bg: rgba(96, 165, 250, 0.24);
+  --kw-bg-hover: rgba(96, 165, 250, 0.48);
+  --kw-line: rgba(29, 78, 216, 0.45);
+  --kw-term: #93c5fd;
+}
+
+/* ------------------------------------------------------------------ *
+ * Reset + base
+ * ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.5;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+
+a:hover {
+  border-bottom-color: var(--ink-soft);
+}
+
+ul {
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page frame
+ * ------------------------------------------------------------------ */
+
+.page {
+  max-width: 47rem;
+  margin: 0 auto;
+  padding: 3.25rem 1.5rem 6rem;
+}
+
+/* Header ----------------------------------------------------------- */
+
+.name {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.contact {
+  margin: 0.3rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.83rem;
+}
+
+.contact .sep {
+  color: var(--ink-faint);
+  margin: 0 0.4rem;
+}
+
+/* Sections --------------------------------------------------------- */
+
+.section {
+  margin-top: 1.75rem;
+}
+
+.section > h2 {
+  margin: 0 0 0.7rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.685rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.entry + .entry {
+  margin-top: 1.05rem;
+}
+
+.entry-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.entry-title {
+  font-weight: 600;
+}
+
+.entry-title .org {
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.entry-meta {
+  flex: none;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stack {
+  margin-top: 0.1rem;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+/* Bullets ---------------------------------------------------------- */
+
+.bullets li {
+  position: relative;
+  padding-left: 0.95rem;
+  margin-top: 0.28rem;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.62em;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+
+/* Skills ----------------------------------------------------------- */
+
+.skills p {
+  margin: 0 0 0.24rem;
+}
+
+.skills .label {
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ *
+ * Keyword highlight
+ * ------------------------------------------------------------------ */
+
+.kw {
+  background: var(--kw-bg);
+  box-shadow: inset 0 -1px 0 var(--kw-line);
+  border-radius: 2px;
+  padding: 0 1px;
+  margin: 0 -1px;
+  cursor: help;
+  transition: none;
+  outline: none;
+}
+
+.kw:hover,
+.kw:focus-visible {
+  background: var(--kw-bg-hover);
+}
+
+.kw:focus-visible {
+  box-shadow:
+    inset 0 -1px 0 var(--kw-line),
+    0 0 0 2px var(--ink);
+}
+
+/* ------------------------------------------------------------------ *
+ * Popup
+ * ------------------------------------------------------------------ */
+
+.pop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  max-width: 20.5rem;
+  padding: 0.4rem 0.6rem 0.45rem;
+  border-radius: 6px;
+  background: #18181b;
+  color: #f4f4f5;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 8px 24px -8px rgba(0, 0, 0, 0.45);
+
+  /* Instant: no transition, no animation, never intercepts the cursor. */
+  transition: none;
+  animation: none;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  will-change: transform;
+}
+
+.pop-term {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--kw-term);
+}
+
+.pop-why {
+  display: block;
+  font-size: 0.845rem;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+/* Arrow tracks the keyword via --arrow-x. */
+.pop::after {
+  content: "";
+  position: absolute;
+  left: var(--arrow-x, 50%);
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  background: #18181b;
+  transform: rotate(45deg);
+}
+
+.pop[data-side="above"]::after {
+  bottom: -3px;
+}
+
+.pop[data-side="below"]::after {
+  top: -3px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Accent toggle
+ * ------------------------------------------------------------------ */
+
+.accent-toggle {
+  position: fixed;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: flex;
+  gap: 0.3rem;
+  z-index: 50;
+}
+
+.accent-toggle button {
+  width: 0.85rem;
+  height: 0.85rem;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  background: var(--swatch);
+  cursor: pointer;
+  transition: none;
+}
+
+.accent-toggle button[aria-pressed="true"] {
+  border-color: var(--ink-soft);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ink-faint);
+}
+
+/* ------------------------------------------------------------------ *
+ * Print — drop the highlights, keep the resume
+ * ------------------------------------------------------------------ */
+
+@media print {
+  .page {
+    padding: 0;
+    max-width: none;
+  }
+  .kw {
+    background: none;
+    box-shadow: none;
+  }
+  .pop,
+  .accent-toggle {
+    display: none;
+  }
+}
